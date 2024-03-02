@@ -44,49 +44,57 @@ def get_best_word(words, ranks, guess):
         best_word = word
   return best_word
 
-def main(guess, state):
-
-  # if input is invalid, return False
-  if not input_verify(guess, state):
-    return False
-
+def setup_library():
   words = helpers.read_words(words_path)
   answers = helpers.read_words(answers_path)
   ranks = json.load(open(ranks_path))
+  return words, answers, ranks
 
-  # narrow down words based on the state
-  words = words_narrow(words, state, guess)
+def main():
+
+  words, answers, ranks = setup_library()
+
+  while True:
+    guess = input("Guess: ")
+    state = input("State: ")
+
+    # if input is invalid, return False
+    if not input_verify(guess, state):
+      return False
+
+    # narrow down words based on the state
+    words = words_narrow(words, state, guess)
   
-  if len(words) > 20:
-    print("Remaining number of words: ", len(words))
-  else:
-    print("Remaining words: ", words)
+    if len(words) > 20:
+      print("Remaining number of words: ", len(words))
+    else:
+      print("Remaining words: ", words)
 
-  # narrow down answers based on remaining words
-  answers = answers_narrow(answers, words)
+    # narrow down answers based on remaining words
+    answers = answers_narrow(answers, words)
 
-  if len(answers) > 20:
-    print("Remaining number of answers: ", len(answers))
-  else:
-    print("Remaining answers: ", answers)
+    if len(answers) > 20:
+      print("Remaining number of answers: ", len(answers))
+    elif len(answers) == 1:
+      print("Answer: ", answers[0])
+      break
+    else:
+      print("Remaining answers: ", answers)
 
-  # find the word with the highest rank
-  best_word = get_best_word(words, ranks, guess)
+    # find the word with the highest rank
+    best_word = get_best_word(words, ranks, guess)
 
-  return best_word
+    print("Best Next guess: ", best_word)
+  
+  return True
 
 if __name__ == "__main__":
   
   try:
-    next_guess = main("dowel", "xxxxx")
+    if main() == False:
+      exit(1)
   except Exception as e: 
     print(f'Error Occurred in main() function: {e}') 
     exit(1)
-
-  if next_guess == False:
-    # input_verify() will print error message
-    exit(1)
-
-  print("Best Next guess: ", next_guess)
   
   exit(0)
