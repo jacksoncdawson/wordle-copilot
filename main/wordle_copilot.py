@@ -1,6 +1,5 @@
 import json
 import helpers
-import string
 
 answers_path = "/Users/jackcdawson/Desktop/dev/Python Projects/wordle-copilot/Library/answers.txt"
 ranks_path = "/Users/jackcdawson/Desktop/dev/Python Projects/wordle-copilot/main/ranks.json"
@@ -21,7 +20,7 @@ def main(guess, state):
     return True
 
   print("check 2")
-  words = helpers.read_to_set(words_path)
+  words = helpers.read_words(words_path)
   # answers = helpers.read_to_set(answers_path)
   ranks = json.load(open(ranks_path))
   
@@ -32,14 +31,17 @@ def main(guess, state):
   # if the letter is "y", remove all words that have that letter in that position and all words that don't have that letter in any position
   # if the letter is "x", remove all words that have that letter in any position
 
-  print("check 3")
+  print("length before: ",len(words))
   for i in range(5):
+    # correctly incluting letter in position
     if state[i] == "g":
       words = {word for word in words if word[i] == guess[i]}
     elif state[i] == "y":
-      words = {word for word in words if word[i] != guess[i]}
+      words = {word for word in words if (word[i] != guess[i] and guess[i] in word)}
     elif state[i] == "x":
       words = {word for word in words if guess[i] not in word}
+  print("length after: ",len(words))
+  print("words after: ", words)
 
   # for each word left, sum the ranks of the letters in the word
   # keep track of the word with the highest rank
@@ -47,7 +49,7 @@ def main(guess, state):
   # return the word with the highest rank
 
   print("check 4")
-  max_rank = -1
+  max_rank = 0
   best_word = ""
   for word in words:
     print("check 4.1")
@@ -71,7 +73,7 @@ def main(guess, state):
 if __name__ == "__main__":
   
   try:
-    main("print", "yxxxg")
+    main("print", "yyxxg")
   except:
     print('Error Occurred in main() function.')
     exit(1)
@@ -79,5 +81,6 @@ if __name__ == "__main__":
   exit(0)
 
 
-# brine
-# gxxyx
+# word: sport
+# guess: print
+# state: yyxxg

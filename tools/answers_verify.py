@@ -1,3 +1,6 @@
+# About: Confirms that the scraped answers are included in the words.txt file.
+# Not used in the main program.
+
 import helpers_tools
 
 # Verify that all answers are included in the words.txt file.

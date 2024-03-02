@@ -1,3 +1,6 @@
+# About: Helper functions for the main program
+
+# reads in file of words, returns a list of the words
 def read_words(path):
   with open(path, 'r') as f:
     words = f.readlines()
@@ -5,6 +8,7 @@ def read_words(path):
 
   return words
 
+# reads in file of words, returns a set of the words
 def read_to_set(path):
   words_set = set()
   with open(path, 'r') as f:

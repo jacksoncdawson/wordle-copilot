@@ -1,10 +1,12 @@
-# use selenium to get the answer key from https://www.wordunscrambler.net/word-list/wordle-word-list
-# and save it to a file: "answers.txt"
+# About: Uses selenium to get the answer key from https://www.wordunscrambler.net/word-list/wordle-word-list and save it to a file: "answers.txt"
+# Not used in the main program.
 
 from selenium import webdriver;
 from selenium.webdriver.common.by import By
 
+# scrape the answers from the website, write them to a file
 def answers_scrape():
+  
   # open the website
   driver = webdriver.Chrome()
   driver.get('https://www.wordunscrambler.net/word-list/wordle-word-list')
