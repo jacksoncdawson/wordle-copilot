@@ -2,7 +2,6 @@ import json
 import helpers
 from collections import deque
 
-answers_path = "/Users/jackcdawson/Desktop/dev/Python Projects/wordle-copilot/Library/answers.txt"
 ranks_path = "/Users/jackcdawson/Desktop/dev/Python Projects/wordle-copilot/main/ranks.json"
 words_path = "/Users/jackcdawson/Desktop/dev/Python Projects/wordle-copilot/Library/words.txt"
 
@@ -17,35 +16,19 @@ def input_verify(guess, state):
     return False
   return True
 
-# narrow down the words based on the state, update the map of letter/position that must be in the answer
-def words_narrow(words, state, guess, map):
-
+def words_narrow(words, state, guess):
   for i in range(5):
     if state[i] == "g":
-      # remove words that don't have the guess in the current position
       words = [word for word in words if word[i] == guess[i]]
     elif state[i] == "y":
-      # adjust the map
-      if guess[i] not in map:
-        map[guess[i]] = [j for j in range(5) if j != i] 
-      else:
-        map[guess[i]] = [j for j in map[guess[i]] if j != i]
-      # remove words that have the letter in the current position, and words that dont have the letter at all
       words = [word for word in words if (word[i] != guess[i]) and (guess[i] in word)]
-    elif state[i] == "x": 
-      # adjust the map
-      if guess[i] in map:
-        map[guess[i]] = [j for j in map[guess[i]] if j != i]
-        # remove words that have the letter in the current position
-        words = [word for word in words if word[i] == guess[i]]
-      else:
-        # remove words that have the letter in it at all
+    elif state[i] == "x":
+      # if 
+      if not any(guess[i] == guess[j] and state[j] in ["g", "y"] for j in range(5)):
         words = [word for word in words if guess[i] not in word]
-
+      else:
+        words = [word for word in words if guess[i] != word[i]]
   return words
-
-def answers_narrow(answers, words):
-  return [answer for answer in answers if answer in words]
 
 def get_best_word(words, ranks, guess):
   
@@ -70,15 +53,12 @@ def get_best_word(words, ranks, guess):
 
 def setup_library():
   words = helpers.read_words(words_path)
-  answers = helpers.read_words(answers_path)
   ranks = json.load(open(ranks_path))
-  return words, answers, ranks
+  return words, ranks
 
 def main():
 
-  words, answers, ranks = setup_library()
-
-  map = {}
+  words, ranks = setup_library()
 
   while True:
     guess = input("Guess: ")
@@ -89,25 +69,12 @@ def main():
       return False
 
     # narrow down words based on the state
-    words = words_narrow(words, state, guess, map)
+    words = words_narrow(words, state, guess)
   
     if len(words) > 20:
       print("Remaining number of words: ", len(words))
     else:
       print("Remaining words: ", words)
-
-    print("Map: ", map)
-
-    # narrow down answers based on remaining words
-    answers = answers_narrow(answers, words)
-
-    if len(answers) > 20:
-      print("Remaining number of answers: ", len(answers))
-    elif len(answers) == 1:
-      print("Answer: ", answers[0])
-      break
-    else:
-      print("Remaining answers: ", answers)
 
     # find the word with the highest rank
     best_options = get_best_word(words, ranks, guess)
@@ -127,6 +94,5 @@ if __name__ == "__main__":
   except Exception as e: 
     print(f'Error Occurred in main() function: {e}') 
     exit(1)
-
   
   exit(0)
