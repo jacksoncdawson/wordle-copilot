@@ -1,9 +1,8 @@
 import json
-import helpers
 from collections import deque
 
-ranks_path = "/Users/jackcdawson/Desktop/dev/Python Projects/wordle-copilot/main/ranks.json"
-words_path = "/Users/jackcdawson/Desktop/dev/Python Projects/wordle-copilot/Library/words.txt"
+ranks_path = "/Users/jackcdawson/Desktop/dev/Python Projects/wordle-copilot/Library/ranks.json"
+words_path = "/Users/jackcdawson/Desktop/dev/Python Projects/wordle-copilot/Library/words.json"
 
 def input_verify(guess, state):
   if (len(guess) != 5) or (not guess.isalpha()):
@@ -23,7 +22,7 @@ def words_narrow(words, state, guess):
     elif state[i] == "y":
       words = [word for word in words if (word[i] != guess[i]) and (guess[i] in word)]
     elif state[i] == "x":
-      # if 
+      # if the letter has not been 
       if not any(guess[i] == guess[j] and state[j] in ["g", "y"] for j in range(5)):
         words = [word for word in words if guess[i] not in word]
       else:
@@ -52,7 +51,7 @@ def get_best_word(words, ranks, guess):
   return best_word, choices
 
 def setup_library():
-  words = helpers.read_words(words_path)
+  words = json.load(open(words_path))
   ranks = json.load(open(ranks_path))
   return words, ranks
 
