@@ -4,3 +4,6 @@ chrome-mac-x64
 
 # pycache
 __pycache__
+
+# macOS
+.DS_Store
