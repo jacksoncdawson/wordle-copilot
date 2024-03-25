@@ -1,15 +1,15 @@
 import json
 
-words_path = "/Users/jackcdawson/Desktop/dev/Python Projects/wordle-copilot/Library/words.txt"
+file_path = "/Users/jackcdawson/Desktop/dev/Python Projects/wordle-copilot/Library/possible_words.txt"
 
-# reformat words.txt into a json file
-def jsonify_words(words_path):
-  with open(words_path, 'r') as f:
+def jsonify_words(file_path):
+  with open(file_path, 'r') as f:
     words = f.readlines()
   words = [word.strip() for word in words]
-  with open('/Users/jackcdawson/Desktop/dev/Python Projects/wordle-copilot/Library/words.json', 'w') as f:
+  with open('/Users/jackcdawson/Desktop/dev/Python Projects/wordle-copilot/Library/solutions.json', 'w') as f:
     json.dump(words, f)
 
 if __name__ == "__main__":
-  jsonify_words(words_path)
+
+  jsonify_words(file_path)
   exit(0)
