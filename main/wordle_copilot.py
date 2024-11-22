@@ -63,7 +63,7 @@ def main():
     guess = input("Guess: ")
     state = input("State: ")
 
-    # if input is invalid, return False
+    # verify input
     if not input_verify(guess, state):
       return False
 

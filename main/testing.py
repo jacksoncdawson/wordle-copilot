@@ -15,16 +15,6 @@ states = json.load(open(states_path))
 
 # TESTING FUNCTIONS
 
-def test_avg_remaining_words(words: list[str], word: str, state: str) -> float:
-
-  avg_remaining = 0
-  for state in states:
-    avg_remaining += len(prob.words_narrow(words, state, word))
-
-  print(f"Average remaining words: {round(avg_remaining / 243, 3)}")
-  
-  return 
-
 def test_entropy(word: str) -> None:
 
   print(f"Entropy of {word}: {round(prob.entropy(word), 3)}")
@@ -58,7 +48,6 @@ def test_all(words: list[str], word: str, state: str) -> None:
 
   # run tests
   test_entropy(word)
-  test_avg_remaining_words(words, word, state)
   test_words_narrow(words, word, state)
   # test_pmf_get(word)
 
@@ -66,7 +55,7 @@ def test_all(words: list[str], word: str, state: str) -> None:
 
 if __name__ == "__main__":
 
-  word = "tares"
-  state = "xxxgy"
+  word = "eeeee"
+  state = "xxxxx"
 
   test_all(words, word, state)

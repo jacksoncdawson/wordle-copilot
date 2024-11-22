@@ -6,7 +6,7 @@ import math
 
 words = json.load(open("/Users/jackcdawson/Desktop/dev/Python Projects/wordle-copilot/Library/words.json"))
 states = json.load(open("/Users/jackcdawson/Desktop/dev/Python Projects/wordle-copilot/Library/states.json"))
-entropy_data = json.load(open('/Users/jackcdawson/Desktop/dev/Python Projects/wordle-copilot/Library/naive-entropy.json'))
+entropy_data = json.load(open('/Users/jackcdawson/Desktop/dev/Python Projects/wordle-copilot/Library/entropy.json'))
 
 
 # HELPER FUNCTIONS
@@ -162,8 +162,5 @@ def entropy(word: str) -> float:
 
 if __name__ == "__main__":
 
-  top_n_words(10)
-
-
-
-  
+  # top_n_words(10)
+  pmf_graph("tares", pmf_get("tares"))
